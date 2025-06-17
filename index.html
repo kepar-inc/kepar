@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kepar Developments | Building the Future</title>
+    <style>
+        :root {
+            --kepar-primary: #0056b3;
+            --kepar-secondary: #003366;
+            --kepar-accent: #ff9900;
+            --text-dark: #333;
+            --text-light: #fff;
+            --gray-bg: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        /* Elegant Center-Out Loading Bar Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+        .loading-bar-container {
+            width: 240px;
+            height: 2px; /* Half of 4px for a very thin line */
+            /* No background for a clean look */
+            border-radius: 1px;
+            overflow: hidden;
+            margin-bottom: 32px;
+            position: relative;
+        }
+        .loading-bar {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: #111;
+            border-radius: 1px;
+            transform: translateX(-50%);
+            transition: width 0.4s cubic-bezier(.4,0,.2,1);
+        }
+        .loading-logo {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #111;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+            font-family: 'Arial', sans-serif;
+        }
+        .loading-subtitle {
+            font-size: 1.15rem;
+            color: #444;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            margin-top: 0;
+            margin-bottom: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+        
+        /* Transparent Header Styles */
+        header {
+            background-color: transparent;
+            color: var(--text-light);
+            padding: 1.5rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            transition: background-color 0.3s ease;
+        }
+        
+        header.scrolled {
+            background-color: var(--kepar-primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--kepar-accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--kepar-accent);
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: var(--kepar-accent);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 60px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--kepar-accent);
+            color: var(--text-dark);
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            animation: fadeInUp 1s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+        
+        .btn:hover {
+            background-color: #e68a00;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Rest of your existing styles... */
+        .projects {
+            padding: 5rem 0;
+            background-color: var(--gray-bg);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--kepar-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .project-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .project-card:hover .project-img img {
+            transform: scale(1.1);
+        }
+        
+        .project-info {
+            padding: 1.5rem;
+        }
+        
+        .project-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--kepar-primary);
+        }
+        
+        .project-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .stats {
+            padding: 5rem 0;
+            background-color: var(--kepar-secondary);
+            color: var(--text-light);
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: var(--kepar-accent);
+        }
+        
+        .stat-item p {
+            font-size: 1.1rem;
+        }
+        
+        .about {
+            padding: 5rem 0;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-img {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .about-text h2 {
+            font-size: 2.5rem;
+            color: var(--kepar-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+        
+        footer {
+            background-color: var(--kepar-secondary);
+            color: var(--text-light);
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--kepar-accent);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--kepar-accent);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-logo">Kepar</div>
+        <h2 class="loading-subtitle">Planning your Retirement</h2>
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loading-bar"></div>
+        </div>
+    </div>
+    
+    <!-- Transparent Header -->
+    <header id="main-header">
+        <div class="container header-container">
+            <a href="#" class="logo">KEPAR<span>DEVELOPMENTS</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#impact">Impact</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Building the Future with Kepar</h1>
+            <p>Transforming communities through innovative development projects that create lasting value and opportunity.</p>
+            <a href="#projects" class="btn">View Our Projects</a>
+        </div>
+    </section>
+    
+    <!-- Rest of your content... -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Developments</h2>
+                <p>Kepar is proud to be transforming neighborhoods across the region with our innovative approach to community development.</p>
+            </div>
+            
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Mixed-Use Development">
+                    </div>
+                    <div class="project-info">
+                        <h3>Downtown Revitalization</h3>
+                        <p>A mixed-use development bringing new housing, retail, and public spaces to the city center.</p>
+                        <a href="#" class="btn">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1560520031-3a4dc4e9de0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Affordable Housing">
+                    </div>
+                    <div class="project-info">
+                        <h3>Affordable Housing Initiative</h3>
+                        <p>300 units of quality affordable housing with community amenities and services.</p>
+                        <a href="#" class="btn">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Commercial Space">
+                    </div>
+                    <div class="project-info">
+                        <h3>Innovation District</h3>
+                        <p>Commercial spaces designed for tech startups and creative businesses.</p>
+                        <a href="#" class="btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="impact" class="stats">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Impact</h2>
+                <p>Kepar's developments create lasting value for communities through measurable results.</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>75+</h3>
+                    <p>Projects Completed</p>
+                </div>
+                <div class="stat-item">
+                    <h3>5,000+</h3>
+                    <p>Housing Units Created</p>
+                </div>
+                <div class="stat-item">
+                    <h3>$2B+</h3>
+                    <p>Invested in Communities</p>
+                </div>
+                <div class="stat-item">
+                    <h3>10,000+</h3>
+                    <p>Jobs Supported</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kepar Team">
+                </div>
+                <div class="about-text">
+                    <h2>About Kepar Developments</h2>
+                    <p>Founded in 2005, Kepar has grown into one of the region's most respected development firms with a focus on creating projects that serve community needs while achieving financial sustainability.</p>
+                    <p>Our team brings together decades of experience in real estate development, urban planning, architecture, and community engagement to create spaces that people love.</p>
+                    <p>We believe development should be about more than just buildings - it's about creating opportunities, strengthening neighborhoods, and building a better future for all residents.</p>
+                    <a href="#" class="btn">Learn More About Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Kepar Developments</h3>
+                    <ul>
+                        <li><a href="#projects">Our Projects</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#impact">Our Impact</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li>Email: info@kepar.com</li>
+                        <li>Phone: (123) 456-7890</li>
+                        <li>Address: 123 Kepar St, Developtown, DE 19999</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 Kepar Developments. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+      // Animate loading bar from center outward
+      document.addEventListener('DOMContentLoaded', function() {
+        var bar = document.getElementById('loading-bar');
+        var progress = 0;
+        var interval = setInterval(function() {
+          if (progress < 80) {
+            progress += Math.random() * 8 + 2;
+          } else if (progress < 98) {
+            progress += Math.random() * 1.5 + 0.5;
+          } else {
+            progress = 100;
+            clearInterval(interval);
+          }
+          if (progress > 100) progress = 100;
+          bar.style.width = (progress * 2.4) + 'px'; // 240px max width
+        }, 80);
+      });
+
+      window.addEventListener('load', function() {
+        var loadingScreen = document.getElementById('loading-screen');
+        var bar = document.getElementById('loading-bar');
+        // Ensure bar fills to 100% before fade out
+        setTimeout(function() {
+          bar.style.width = '240px';
+          setTimeout(function() {
+            loadingScreen.style.opacity = '0';
+            setTimeout(function() {
+              loadingScreen.style.display = 'none';
+            }, 500); // matches the CSS transition
+          }, 400); // allow bar to visually fill
+        }, 1500); // keep loading screen for at least 1.5s
+      });
+    </script>
+</body>
+</html>
