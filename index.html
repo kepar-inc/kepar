@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="scroll-progress-bar"></div>
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="loading-logo">Kepar</div>
@@ -19,7 +20,10 @@
     <!-- Transparent Header -->
     <header id="main-header">
         <div class="container header-container">
-            <a href="#" class="logo">KEPAR<span>DEVELOPMENTS</span></a>
+            <a href="#" class="logo">
+                <img src="images/kepar-logo.png" alt="Kepar Logo" class="logo-img">
+                <span class="logo-text">KEPAR</span>
+            </a>
             <nav>
                 <ul>
                     <li><a href="#projects">Projects</a></li>
@@ -201,6 +205,27 @@
             }, 500); // matches the CSS transition
           }, 400); // allow bar to visually fill
         }, 1500); // keep loading screen for at least 1.5s
+      });
+
+      // Header scroll background toggle after hero section
+      window.addEventListener('scroll', function() {
+        var header = document.getElementById('main-header');
+        var hero = document.querySelector('.hero');
+        var heroBottom = hero.offsetTop + hero.offsetHeight;
+        if (window.scrollY >= heroBottom) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // Scroll progress bar
+      window.addEventListener('scroll', function() {
+        var scrollBar = document.getElementById('scroll-progress-bar');
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        scrollBar.style.width = scrolled + '%';
       });
     </script>
 </body>
