@@ -371,10 +371,22 @@ footer {
 }
 
 .footer-content {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    display: flex;
+    justify-content: space-evenly; /* Even spacing between columns */
+    align-items: flex-start;
+    gap: 0; /* Remove gap if using space-evenly */
     margin-bottom: 2rem;
+    text-align: center;
+    width: 100%;
+}
+
+.footer-column {
+    flex: 1 1 0;
+    min-width: 180px;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .footer-column h3 {
