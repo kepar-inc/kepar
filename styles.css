@@ -432,6 +432,127 @@ footer {
     pointer-events: none;
 }
 
+.scroll-merge-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-merge-inner {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-merge-heading {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--kepar-primary, #0056b3);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  z-index: 2;
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.scroll-merge-cards {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 340px;
+  pointer-events: none;
+}
+
+.merge-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 240px;
+  max-width: 90vw;
+  padding: 1.5rem 1.2rem;
+  background: #fff;
+  border-radius: 16px;
+  border: 2px solid var(--kepar-primary, #0056b3);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.10);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--kepar-primary, #0056b3);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.7);
+  pointer-events: none;
+  z-index: 1;
+  text-align: center;
+  will-change: transform, opacity;
+  background-clip: padding-box;
+}
+.merge-card.card-left,
+.merge-card.card-right {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 240px;
+  max-width: 90vw;
+  padding: 1.5rem 1.2rem;
+  background: #fff;
+  border-radius: 16px;
+  border: 2px solid var(--kepar-primary, #0056b3);
+  box-shadow: 0 6px 32px rgba(0,0,0,0.10);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--kepar-primary, #0056b3);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.7);
+  pointer-events: none;
+  z-index: 1;
+  text-align: center;
+  will-change: transform, opacity;
+  background-clip: padding-box;
+}
+.merge-card ul {
+  list-style: disc inside;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+.merge-card.final-card {
+  background: linear-gradient(90deg, var(--kepar-primary, #0056b3) 0%, var(--kepar-accent, #ff9900) 100%);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 800;
+  z-index: 2;
+  opacity: 0;
+  box-shadow: 0 8px 36px rgba(0,0,0,0.13);
+}
+
+@media (max-width: 600px) {
+  .scroll-merge-inner {
+    min-height: 420px;
+  }
+  .scroll-merge-heading {
+    font-size: 1.3rem;
+  }
+  .scroll-merge-cards {
+    height: 320px;
+  }
+  .merge-card, .merge-card.final-card {
+    width: 90vw;
+    font-size: 1.05rem;
+    padding: 1rem 0.5rem;
+  }
+}
+
 @media (max-width: 768px) {
     .header-container {
         flex-direction: column;

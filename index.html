@@ -45,6 +45,24 @@
     </section>
     
     <!-- Rest of your content... -->
+    <section id="kepar-scroll-merge" class="scroll-merge-section">
+      <div class="scroll-merge-inner">
+        <h1 class="scroll-merge-heading">Your one stop crew to plan your retirement</h1>
+        <div class="scroll-merge-cards">
+          <div class="merge-card card-left">
+        <ul>
+          <li>Lawn Care</li>
+        </ul>
+      </div>
+      <div class="merge-card card-right">
+        <ul>
+          <li>Construction</li>
+        </ul>
+      </div>
+    </div>
+      </div>
+    </section>
+    
     <section id="projects" class="projects">
         <div class="container">
             <div class="section-title">
@@ -173,6 +191,8 @@
         </div>
     </footer>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script>
       // Animate loading bar from center outward
       document.addEventListener('DOMContentLoaded', function() {
@@ -227,6 +247,156 @@
         var scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
         scrollBar.style.width = scrolled + '%';
       });
+
+      // Scroll-triggered heading and card merge animation
+      document.addEventListener('DOMContentLoaded', function() {
+        const section = document.querySelector('.scroll-merge-section');
+        const heading = section.querySelector('.scroll-merge-heading');
+        const cards = Array.from(section.querySelectorAll('.merge-card:not(.final-card)'));
+        const finalCard = section.querySelector('.merge-card.final-card');
+
+        if (section && heading && cards.length && finalCard) {
+          gsap.registerPlugin(ScrollTrigger);
+
+          // Set initial card positions (off-screen)
+          const cardOffsets = [
+            {x: -350, y: -120},
+            {x: 350, y: -120},
+            {x: -350, y: 120},
+            {x: 350, y: 120},
+            {x: 0, y: 220}
+          ];
+          gsap.set(cards, (i) => ({
+            opacity: 0,
+            scale: 0.7,
+            x: cardOffsets[i] ? cardOffsets[i].x : 0,
+            y: cardOffsets[i] ? cardOffsets[i].y : 0,
+            zIndex: 1
+          }));
+          gsap.set(finalCard, { opacity: 0, scale: 0.7, zIndex: 2 });
+
+          // Timeline for scroll
+          let tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: section,
+              start: "top top",
+              end: "+=600",
+              scrub: true,
+              pin: true,
+              anticipatePin: 1,
+            }
+          });
+
+          // Heading zooms out and fades
+          tl.to(heading, {
+            scale: 0.5,
+            opacity: 0,
+            duration: 0.5,
+            ease: "power3.inOut"
+          }, 0);
+
+          // Cards fly in and converge to center
+          cards.forEach((card, i) => {
+            tl.to(card, {
+              opacity: 1,
+              scale: 1,
+              x: 0,
+              y: 0,
+              duration: 0.5,
+              ease: "power3.out"
+            }, 0.1 + i*0.13);
+          });
+
+          // Cards merge and fade out, final card appears
+          tl.to(cards, {
+            scale: 0.95,
+            opacity: 0.2,
+            stagger: 0.07,
+            duration: 0.5,
+            ease: "power3.inOut"
+          }, "+=0.4");
+
+          tl.to(finalCard, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: "power3.out"
+          }, "-=0.3");
+
+          tl.to(cards, {
+            opacity: 0,
+            duration: 0.2
+          }, "-=0.2");
+        }
+      });
     </script>
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const section = document.querySelector('.scroll-merge-section');
+    const heading = section.querySelector('.scroll-merge-heading');
+    const cardLeft = section.querySelector('.merge-card.card-left');
+    const cardRight = section.querySelector('.merge-card.card-right');
+
+    if (section && heading && cardLeft && cardRight) {
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Set cards at left and right edges, invisible
+      gsap.set(cardLeft, {
+        opacity: 0,
+        scale: 0.7,
+        x: -window.innerWidth / 2 - 150, // far left edge
+        y: 0,
+        zIndex: 1
+      });
+      gsap.set(cardRight, {
+        opacity: 0,
+        scale: 0.7,
+        x: window.innerWidth / 2 + 150, // far right edge
+        y: 0,
+        zIndex: 1
+      });
+
+      // Timeline for scroll
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "+=400",
+          scrub: true,
+          pin: true,
+          anticipatePin: 1,
+        }
+      });
+
+      // Heading zooms out and fades
+      tl.to(heading, {
+        scale: 0.5,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power3.inOut"
+      }, 0);
+
+      // Left card flies in from left edge to center
+      tl.to(cardLeft, {
+        opacity: 1,
+        scale: 1,
+        x: 0,
+        y: 0,
+        duration: 0.7,
+        ease: "power3.out"
+      }, 0.2);
+
+      // Right card flies in from right edge to center, slightly after left
+      tl.to(cardRight, {
+        opacity: 1,
+        scale: 1,
+        x: 0,
+        y: 0,
+        duration: 0.7,
+        ease: "power3.out"
+      }, 0.35);
+    }
+  });
+</script>
 </body>
 </html>
