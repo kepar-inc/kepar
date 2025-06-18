@@ -437,7 +437,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f8fafc;
+  background: #111; /* Black background */
   position: relative;
   overflow: hidden;
 }
@@ -482,13 +482,13 @@ footer {
   width: 240px;
   max-width: 90vw;
   padding: 1.5rem 1.2rem;
-  background: #fff;
+  background: #444; /* Gray background */
   border-radius: 16px;
-  border: 2px solid var(--kepar-primary, #0056b3);
+  border: 2px solid #fff;
   box-shadow: 0 6px 32px rgba(0,0,0,0.10);
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--kepar-primary, #0056b3);
+  color: #fff;
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.7);
   pointer-events: none;
@@ -503,12 +503,9 @@ footer {
   top: 50%;
   width: 320px;
   height: 320px;
-  background: #fff;
+  background: #000; /* True black background */
   border-radius: 40px;
-  box-shadow: 0 8px 36px rgba(0,0,0,0.13);
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--kepar-primary, #0056b3);
+  color: #fff;
   transform: translate(-50%, -50%) scale(0.7);
   z-index: 2;
   display: flex;
@@ -532,21 +529,26 @@ footer {
   z-index: 1;
   pointer-events: none;
 }
+.center-border rect {
+  stroke: #fff !important; /* Light white border */
+}
+
 .merge-card.card-left,
-.merge-card.card-right {
+.merge-card.card-right,
+.merge-card.card-bottom {
   position: absolute;
   left: 50%;
   top: 50%;
   width: 240px;
   max-width: 90vw;
   padding: 1.5rem 1.2rem;
-  background: #fff;
+  background: #444; /* Gray background */
   border-radius: 16px;
-  border: 2px solid var(--kepar-primary, #0056b3);
+  border: 2px solid #fff;
   box-shadow: 0 6px 32px rgba(0,0,0,0.10);
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--kepar-primary, #0056b3);
+  color: #fff;
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.7);
   pointer-events: none;
@@ -561,16 +563,21 @@ footer {
   padding: 0;
   text-align: left;
 }
-.merge-card.final-card {
-  background: linear-gradient(90deg, var(--kepar-primary, #0056b3) 0%, var(--kepar-accent, #ff9900) 100%);
-  color: #fff;
-  font-size: 1.4rem;
-  font-weight: 800;
-  z-index: 2;
-  opacity: 0;
-  box-shadow: 0 8px 36px rgba(0,0,0,0.13);
+.merge-card.image-card {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
+.merge-card.image-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1.5px solid #fff;
+  background: #222;
+  display: block;
+}
 @media (max-width: 600px) {
   .scroll-merge-inner {
     min-height: 420px;
@@ -591,6 +598,9 @@ footer {
     height: 90vw;
     font-size: 1.2rem;
     border-radius: 18vw;
+  }
+  .merge-card.image-card {
+    width: 90vw;
   }
 }
 
