@@ -59,6 +59,13 @@
           <li>Construction</li>
         </ul>
       </div>
+      <div class="center-card">
+        <span>Your Kepar</span>
+        <svg class="center-border" width="100%" height="100%" viewBox="0 0 320 320" fill="none">
+          <rect x="10" y="10" width="300" height="300" rx="40" stroke="#0056b3" stroke-width="4"
+            stroke-dasharray="1200" stroke-dashoffset="1200"/>
+        </svg>
+      </div>
     </div>
       </div>
     </section>
@@ -336,32 +343,40 @@
     const heading = section.querySelector('.scroll-merge-heading');
     const cardLeft = section.querySelector('.merge-card.card-left');
     const cardRight = section.querySelector('.merge-card.card-right');
+    const centerCard = section.querySelector('.center-card');
+    const centerBorder = section.querySelector('.center-border rect');
 
-    if (section && heading && cardLeft && cardRight) {
+    if (section && heading && cardLeft && cardRight && centerCard && centerBorder) {
       gsap.registerPlugin(ScrollTrigger);
 
       // Set cards at left and right edges, invisible
       gsap.set(cardLeft, {
         opacity: 0,
         scale: 0.7,
-        x: -window.innerWidth / 2 - 150, // far left edge
+        x: -window.innerWidth / 2 - 150,
         y: 0,
         zIndex: 1
       });
       gsap.set(cardRight, {
         opacity: 0,
         scale: 0.7,
-        x: window.innerWidth / 2 + 150, // far right edge
+        x: window.innerWidth / 2 + 150,
         y: 0,
         zIndex: 1
       });
+      gsap.set(centerCard, {
+        opacity: 0,
+        scale: 0.5,
+        zIndex: 2
+      });
+      gsap.set(centerBorder, {strokeDashoffset: 1200});
 
       // Timeline for scroll
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=400",
+          end: "+=500",
           scrub: true,
           pin: true,
           anticipatePin: 1,
@@ -372,11 +387,26 @@
       tl.to(heading, {
         scale: 0.5,
         opacity: 0,
-        duration: 0.5,
+        duration: 0.4,
         ease: "power3.inOut"
       }, 0);
 
-      // Left card flies in from left edge to center
+      // Center card appears and grows after heading disappears
+      tl.to(centerCard, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.5,
+        ease: "power3.out"
+      }, 0.4);
+
+      // Center card border draws as cards come in
+      tl.to(centerBorder, {
+        strokeDashoffset: 0,
+        duration: 0.7,
+        ease: "power2.inOut"
+      }, 0.5);
+
+      // Left card flies in from left edge to center, disappears behind center card
       tl.to(cardLeft, {
         opacity: 1,
         scale: 1,
@@ -384,9 +414,14 @@
         y: 0,
         duration: 0.7,
         ease: "power3.out"
-      }, 0.2);
+      }, 0.6)
+      .to(cardLeft, {
+        opacity: 0,
+        duration: 0.2,
+        ease: "power3.in"
+      }, 1.2);
 
-      // Right card flies in from right edge to center, slightly after left
+      // Right card flies in from right edge to center, disappears behind center card
       tl.to(cardRight, {
         opacity: 1,
         scale: 1,
@@ -394,7 +429,12 @@
         y: 0,
         duration: 0.7,
         ease: "power3.out"
-      }, 0.35);
+      }, 0.8)
+      .to(cardRight, {
+        opacity: 0,
+        duration: 0.2,
+        ease: "power3.in"
+      }, 1.4);
     }
   });
 </script>

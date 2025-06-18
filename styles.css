@@ -497,6 +497,41 @@ footer {
   will-change: transform, opacity;
   background-clip: padding-box;
 }
+.center-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 320px;
+  height: 320px;
+  background: #fff;
+  border-radius: 40px;
+  box-shadow: 0 8px 36px rgba(0,0,0,0.13);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--kepar-primary, #0056b3);
+  transform: translate(-50%, -50%) scale(0.7);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  text-align: center;
+  overflow: visible;
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: box-shadow 0.3s;
+}
+.center-card span {
+  z-index: 2;
+  position: relative;
+}
+.center-border {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  pointer-events: none;
+}
 .merge-card.card-left,
 .merge-card.card-right {
   position: absolute;
@@ -550,6 +585,12 @@ footer {
     width: 90vw;
     font-size: 1.05rem;
     padding: 1rem 0.5rem;
+  }
+  .center-card {
+    width: 90vw;
+    height: 90vw;
+    font-size: 1.2rem;
+    border-radius: 18vw;
   }
 }
 
